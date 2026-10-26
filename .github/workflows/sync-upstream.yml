@@ -1,0 +1,28 @@
+name: Sync Upstream Mirror
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Runs every day at midnight UTC
+  workflow_dispatch: # Allows you to manually trigger the sync via GitHub UI
+
+jobs:
+  sync:
+    name: Force Sync Latest Commits
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Required to push commits to your repository
+
+    steps:
+      # Step 1: Check out your forked repository
+      - name: Checkout target repo
+        uses: actions/checkout@v4
+
+      # Step 2: Force sync upstream changes into your main branch
+      - name: Force Sync Upstream
+        uses: aormsby/Fork-Sync-With-Upstream-action@v3.4.3
+        with:
+          target_sync_branch: main
+          target_repo_token: ${{ secrets.GITHUB_TOKEN }}
+          upstream_sync_repo: owner/original-repo # REPLACE WITH THE ORIGINAL 'OWNER/REPO'
+          upstream_sync_branch: main
+          force: true # This ensures it stays a perfect mirror, overwriting any drift
