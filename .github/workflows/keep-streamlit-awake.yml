@@ -1,0 +1,35 @@
+name: Keep Streamlit awake
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+  workflow_dispatch:
+
+jobs:
+  wake:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Playwright
+        run: |
+          pip install playwright
+          playwright install --with-deps chromium
+      - name: Visit app
+        env:
+          APP_URL: https://ai-phising-detector.streamlit.app/
+        run: |
+          python - <<'EOF'
+          import os
+          from playwright.sync_api import sync_playwright
+          url = os.environ["APP_URL"]
+          with sync_playwright() as p:
+              browser = p.chromium.launch()
+              page = browser.new_page()
+              page.goto(url, wait_until="domcontentloaded")
+              page.wait_for_timeout(10000)
+              btn = page.get_by_text("Yes, get this app back up!")
+              if btn.count():
+                  btn.first.click()
+                  page.wait_for_timeout(30000)
+              page.wait_for_timeout(5000)
+              browser.close()
+          EOF
