@@ -1137,7 +1137,7 @@ with st.sidebar:
     
 import mimetypes
 
-BG_IMAGE_PATH = os.path.join(APP_DIR, "fish_background.jpg")
+BG_IMAGE_PATH = os.path.join(APP_DIR, "fish_background.png")
 
 if os.path.exists(BG_IMAGE_PATH):
     bg_b64 = get_base64_image(BG_IMAGE_PATH)
@@ -1160,9 +1160,8 @@ if os.path.exists(BG_IMAGE_PATH):
                 background: transparent !important;
             }}
 
-            /* Semi-transparent pond-tinted frosted cards */
+            /* Frosted cards ONLY on top-level bordered containers / card_* keys */
             [data-testid="stAppViewContainer"] [data-testid="stVerticalBlockBorderWrapper"],
-            [data-testid="stAppViewContainer"] [data-testid="stLayoutWrapper"] > div:has(> [data-testid="stVerticalBlock"]),
             [data-testid="stAppViewContainer"] [class*="st-key-card_"] {{
                 background-color: rgba(218, 238, 242, 0.82) !important;
                 backdrop-filter: blur(8px) !important;
@@ -1171,13 +1170,19 @@ if os.path.exists(BG_IMAGE_PATH):
                 border-radius: 16px !important;
             }}
 
-            /* Prevent inner wrappers from painting solid white strips over the frosted card */
+            /* Clear out white backgrounds on inner blocks, columns, images, and radios */
             [data-testid="stAppViewContainer"] [data-testid="stVerticalBlockBorderWrapper"] > div,
             [data-testid="stAppViewContainer"] [data-testid="stVerticalBlockBorderWrapper"] [data-testid="stVerticalBlock"],
+            [data-testid="stAppViewContainer"] [data-testid="stVerticalBlockBorderWrapper"] [data-testid="stHorizontalBlock"],
+            [data-testid="stAppViewContainer"] [data-testid="stVerticalBlockBorderWrapper"] [data-testid="stColumn"],
+            [data-testid="stAppViewContainer"] [data-testid="stVerticalBlockBorderWrapper"] [data-testid="stLayoutWrapper"],
             [data-testid="stAppViewContainer"] [data-testid="stVerticalBlockBorderWrapper"] [data-testid="stElementContainer"],
             [data-testid="stAppViewContainer"] [data-testid="stVerticalBlockBorderWrapper"] [data-testid="stMarkdownContainer"],
+            [data-testid="stAppViewContainer"] [data-testid="stVerticalBlockBorderWrapper"] [data-testid="stImage"],
+            [data-testid="stAppViewContainer"] [data-testid="stVerticalBlockBorderWrapper"] [data-testid="stRadio"],
             [data-testid="stAppViewContainer"] [data-testid="stVerticalBlockBorderWrapper"] [data-testid="stRadio"] > div {{
                 background-color: transparent !important;
+                background: transparent !important;
             }}
         </style>
         """,
