@@ -667,7 +667,6 @@ if os.path.exists(FISH_BORDER_PATH):
     st.markdown(
         f"""
         <style>
-            /* 1. Compact dropzone container */
             [data-testid="stFileUploaderDropzone"] {{
                 position: relative !important;
                 display: flex !important;
@@ -681,30 +680,26 @@ if os.path.exists(FISH_BORDER_PATH):
                 border-radius: 12px !important;
             }}
 
-            /* 2. Shrink & nudge the Upload button down and right into the fish belly */
             [data-testid="stFileUploaderDropzone"] button {{
-                transform: translate(32px, 16px) scale(0.85) !important;
+                transform: translate(16px, 22px) scale(0.85) !important;
                 margin: 0 !important;
                 z-index: 2 !important;
             }}
 
-            /* 3. Shrink & tuck the '200MB per file • EML' text right beneath the button inside the belly */
             [data-testid="stFileUploaderDropzoneInstructions"] {{
                 display: flex !important;
                 flex-direction: column !important;
                 align-items: center !important;
                 text-align: center !important;
-                transform: translate(32px, 12px) scale(0.82) !important;
+                transform: translate(16px, 18px) scale(0.82) !important;
                 margin: 0 !important;
                 z-index: 2 !important;
             }}
 
-            /* Hide extra icon inside instructions if Streamlit renders one */
             [data-testid="stFileUploaderDropzoneInstructions"] svg {{
                 display: none !important;
             }}
 
-            /* 4. Smaller, crisp fish border centered behind them */
             [data-testid="stFileUploaderDropzone"]::after {{
                 content: "";
                 position: absolute;
