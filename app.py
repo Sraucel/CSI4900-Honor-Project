@@ -546,13 +546,6 @@ def extract_features(subject, body, has_attachment, att_type, day, hr, device, c
     
     return sample
 
-LOGO_PATH = os.path.join(APP_DIR, "phishing_logo.jpg")
-st.set_page_config(
-    page_title="Aruka: Phishing Email Detector",
-    page_icon=LOGO_PATH if os.path.exists(LOGO_PATH) else "🎣",
-    layout="wide",
-)
-
 st.markdown(
     """
     <style>
@@ -1137,7 +1130,7 @@ with st.sidebar:
     
 import mimetypes
 
-LOGO_PATH = os.path.join(APP_DIR, "phishing_logo.jpg")
+LOGO_PATH = os.path.join(APP_DIR, "phishing_logo.png")
 BG_IMAGE_PATH = os.path.join(APP_DIR, "fish_background.png")
 
 st.set_page_config(
