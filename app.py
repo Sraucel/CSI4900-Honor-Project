@@ -1137,84 +1137,153 @@ with st.sidebar:
     
 import mimetypes
 
+LOGO_PATH = os.path.join(APP_DIR, "phishing_logo.jpg")
 BG_IMAGE_PATH = os.path.join(APP_DIR, "fish_background.png")
 
+st.set_page_config(
+    page_title="Aruka: Phishing Email Detector",
+    page_icon=LOGO_PATH if os.path.exists(LOGO_PATH) else "🎣",
+    layout="wide",
+)
+
+
+def get_base64_image(image_path: str) -> str:
+    with open(image_path, "rb") as f:
+        return base64.b64encode(f.read()).decode()
+
+
+bg_css = "background-color: #e9edf2 !important;"
 if os.path.exists(BG_IMAGE_PATH):
     bg_b64 = get_base64_image(BG_IMAGE_PATH)
     mime_type, _ = mimetypes.guess_type(BG_IMAGE_PATH)
     if not mime_type:
         mime_type = "image/jpeg"
-
-    st.markdown(
-        f"""
-        <style>
-            [data-testid="stAppViewContainer"] {{
-                background-image: url("data:{mime_type};base64,{bg_b64}") !important;
-                background-size: cover !important;
-                background-position: center !important;
-                background-repeat: no-repeat !important;
-                background-attachment: fixed !important;
-            }}
-
-            [data-testid="stHeader"] {{
-                background: transparent !important;
-            }}
-
-            /* Frosted cards ONLY on top-level bordered containers / card_* keys */
-            [data-testid="stAppViewContainer"] [data-testid="stVerticalBlockBorderWrapper"],
-            [data-testid="stAppViewContainer"] [class*="st-key-card_"] {{
-                background-color: rgba(218, 238, 242, 0.82) !important;
-                backdrop-filter: blur(8px) !important;
-                -webkit-backdrop-filter: blur(8px) !important;
-                border-color: rgba(255, 255, 255, 0.55) !important;
-                border-radius: 16px !important;
-            }}
-
-            /* Clear out white backgrounds on inner blocks, columns, images, and radios */
-            [data-testid="stAppViewContainer"] [data-testid="stVerticalBlockBorderWrapper"] > div,
-            [data-testid="stAppViewContainer"] [data-testid="stVerticalBlockBorderWrapper"] [data-testid="stVerticalBlock"],
-            [data-testid="stAppViewContainer"] [data-testid="stVerticalBlockBorderWrapper"] [data-testid="stHorizontalBlock"],
-            [data-testid="stAppViewContainer"] [data-testid="stVerticalBlockBorderWrapper"] [data-testid="stColumn"],
-            [data-testid="stAppViewContainer"] [data-testid="stVerticalBlockBorderWrapper"] [data-testid="stLayoutWrapper"],
-            [data-testid="stAppViewContainer"] [data-testid="stVerticalBlockBorderWrapper"] [data-testid="stElementContainer"],
-            [data-testid="stAppViewContainer"] [data-testid="stVerticalBlockBorderWrapper"] [data-testid="stMarkdownContainer"],
-            [data-testid="stAppViewContainer"] [data-testid="stVerticalBlockBorderWrapper"] [data-testid="stImage"],
-            [data-testid="stAppViewContainer"] [data-testid="stVerticalBlockBorderWrapper"] [data-testid="stRadio"],
-            [data-testid="stAppViewContainer"] [data-testid="stVerticalBlockBorderWrapper"] [data-testid="stRadio"] > div {{
-                background-color: transparent !important;
-                background: transparent !important;
-            }}
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )
+    bg_css = f"""
+        background-image: url("data:{mime_type};base64,{bg_b64}") !important;
+        background-size: cover !important;
+        background-position: center !important;
+        background-repeat: no-repeat !important;
+        background-attachment: fixed !important;
+    """
 
 st.markdown(
-    """
+    f"""
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap');
 
-        /* Apply Nunito across text, headings, inputs, buttons, and labels */
-        html, body, [data-testid="stAppViewContainer"],
-        h1, h2, h3, h4, h5, h6, p, label, li,
-        input, textarea, select, button,
-        [data-baseweb="select"], [data-baseweb="input"], [data-baseweb="textarea"],
-        [data-testid="stMarkdownContainer"] * {
+        html, body, [data-testid="stAppViewContainer"], .stApp {{
             font-family: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif !important;
-        }
+            {bg_css}
+        }}
 
-        /* Keep Streamlit's built-in Material icons intact so chevrons/arrows don't turn into text */
+        /* Keep Material icons from turning into text */
         [data-testid="stIconMaterial"],
         .material-symbols-rounded,
-        .material-icons {
+        .material-icons {{
             font-family: 'Material Symbols Rounded', 'Material Icons' !important;
-        }
+        }}
 
-        /* Slightly heavier, rounder feel for the main title and section headers */
-        h1, h2, h3 {
-            font-weight: 800 !important;
-            letter-spacing: -0.01em !important;
-        }
+        [data-testid="stHeader"] {{
+            background: transparent !important;
+        }}
+        [data-testid="stSidebar"] {{
+            background-color: rgba(245, 247, 250, 0.92) !important;
+            border-right: 1px solid #d8dee6 !important;
+        }}
+        .block-container {{
+            padding-top: 2rem;
+            padding-bottom: 2.5rem;
+            max-width: 1180px;
+        }}
+
+        /* Frosted pond-tinted cards */
+        [class*="st-key-card_"] {{
+            background-color: rgba(222, 240, 244, 0.84) !important;
+            backdrop-filter: blur(8px) !important;
+            -webkit-backdrop-filter: blur(8px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.55) !important;
+            outline: none !important;
+            border-radius: 16px !important;
+            padding: 1.25rem 1.4rem !important;
+            box-shadow: 0 4px 16px rgba(15, 23, 42, 0.10) !important;
+            margin-bottom: 1rem;
+        }}
+
+        /* Transparent inner wrappers inside cards so white strips don't appear */
+        [class*="st-key-card_"] > div,
+        [class*="st-key-card_"] [data-testid="stVerticalBlock"],
+        [class*="st-key-card_"] [data-testid="stVerticalBlockBorderWrapper"],
+        [class*="st-key-card_"] [data-testid="stHorizontalBlock"],
+        [class*="st-key-card_"] [data-testid="stColumn"],
+        [class*="st-key-card_"] [data-testid="stElementContainer"],
+        [class*="st-key-card_"] [data-testid="stMarkdownContainer"],
+        [class*="st-key-card_"] [data-testid="stRadio"] > div {{
+            background-color: transparent !important;
+            background: transparent !important;
+            border: none !important;
+            outline: none !important;
+            box-shadow: none !important;
+        }}
+
+        /* Keep inputs, textareas, and selectboxes legible */
+        [data-testid="stTextInput"] input,
+        [data-testid="stTextArea"] textarea {{
+            background-color: rgba(243, 245, 248, 0.95) !important;
+            color: #1f2937 !important;
+            border: 1px solid #dfe4ec !important;
+            border-radius: 10px !important;
+        }}
+        [data-testid="stSelectbox"] > div > div {{
+            background-color: rgba(243, 245, 248, 0.95) !important;
+            color: #1f2937 !important;
+            border-radius: 10px !important;
+        }}
+
+        /* Required red asterisk label */
+        .req-label {{
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #1f2937;
+            margin-bottom: 0.25rem;
+            line-height: 1.4;
+        }}
+        .req-star {{
+            color: #d93025;
+            font-weight: 700;
+        }}
+
+        /* Empty results placeholder blends directly into the frosted card */
+        .empty-results-box {{
+            background-color: transparent !important;
+            border: none !important;
+            padding: 2rem 1rem;
+            text-align: center;
+            color: #374151;
+            margin-top: 0.5rem;
+        }}
+        .empty-results-icon {{
+            font-size: 2rem;
+            line-height: 1;
+            margin-bottom: 0.6rem;
+        }}
+        .empty-results-title {{
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 0.3rem;
+        }}
+        .empty-results-sub {{
+            font-size: 0.9rem;
+            color: #4b5563;
+            margin: 0;
+        }}
+
+        footer,
+        [data-testid="stFooter"],
+        [data-testid="stStatusWidget"] {{
+            visibility: hidden !important;
+            display: none !important;
+        }}
     </style>
     """,
     unsafe_allow_html=True,
