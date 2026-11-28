@@ -982,7 +982,7 @@ with st.container(border=True, key="card_inputs"):
             label_visibility="collapsed",
         )
     with col4:
-        req_label("Email Client Received On")
+        req_label("Email Client")
         email_client = st.selectbox(
             "Email Client Received On",
             ["Thunderbird", "Gmail", "Apple Mail", "Yahoo Mail", "Outlook"],
@@ -1220,7 +1220,7 @@ st.markdown(
             {bg_css}
         }}
 
-        /* Increase font sizes by ~4px across text, labels, inputs, and buttons */
+        /* Adjust font sizes by +0.5px across text, labels, inputs, and buttons */
         html, body, [data-testid="stAppViewContainer"], .stApp,
         [data-testid="stMarkdownContainer"] p,
         [data-testid="stMarkdownContainer"] li,
@@ -1231,7 +1231,7 @@ st.markdown(
         [data-testid="stTextArea"] textarea,
         [data-testid="stSelectbox"] > div > div,
         button {{
-            font-size: calc(1em + 1px) !important;
+            font-size: calc(1em + 0.5px) !important;
         }}
 
         /* Prevent background image from repeating on inner text/input elements */
@@ -1254,7 +1254,7 @@ st.markdown(
             background: transparent !important;
         }}
         [data-testid="stSidebar"] {{
-            background-color: rgba(150, 160, 170, 0.94) !important;
+            background-color: rgba(175, 185, 195, 0.90) !important;
             backdrop-filter: blur(6px) !important;
             -webkit-backdrop-filter: blur(6px) !important;
             border-right: 1px solid rgba(15, 23, 42, 0.14) !important;
@@ -1308,26 +1308,29 @@ st.markdown(
             color: #ffffff !important;
         }}
 
-        /* Radio button active circle & border in #115240 */
+        /* Force checked radio circle, border, and inner dot to #115240 */
         [data-testid="stRadio"] input[type="radio"]:checked + div,
+        [data-testid="stRadio"] input[type="radio"]:checked ~ div,
         [data-testid="stRadio"] label[data-checked="true"] > div:first-child,
         [data-testid="stRadio"] [role="radio"][aria-checked="true"] > div:first-child,
-        [data-testid="stRadio"] [data-baseweb="radio"] > div:first-child {{
+        [data-testid="stRadio"] [data-baseweb="radio"][aria-checked="true"] > div:first-child {{
             background-color: #115240 !important;
             border-color: #115240 !important;
+            box-shadow: inset 0 0 0 3px #ffffff, 0 0 0 1px #115240 !important;
         }}
-        [data-testid="stRadio"] input[type="radio"]:checked + div::before,
-        [data-testid="stRadio"] input[type="radio"]:checked + div::after,
-        [data-testid="stRadio"] label[data-checked="true"] > div:first-child::before,
-        [data-testid="stRadio"] label[data-checked="true"] > div:first-child::after,
-        [data-testid="stRadio"] [data-baseweb="radio"] > div:first-child > div,
-        [data-testid="stRadio"] input:checked ~ div,
-        [data-testid="stRadio"] input[type="radio"]:checked + * {{
-            background-color: #115240 !important;
+        [data-testid="stRadio"] input[type="radio"]:checked + div *,
+        [data-testid="stRadio"] label[data-checked="true"] > div:first-child *,
+        [data-testid="stRadio"] [role="radio"][aria-checked="true"] > div:first-child *,
+        [data-testid="stRadio"] [data-baseweb="radio"][aria-checked="true"] > div:first-child * {{
             border-color: #115240 !important;
         }}
-        [data-testid="stRadio"] [role="radio"][aria-checked="true"] > div:first-child > div {{
-            background-color: #ffffff !important;
+        [data-testid="stRadio"] [aria-checked="true"] [style*="rgb(255, 75, 75)"],
+        [data-testid="stRadio"] [aria-checked="true"] [style*="#ff4b4b"],
+        [data-testid="stRadio"] [aria-checked="true"] [style*="#FF4B4B"],
+        [data-testid="stRadio"] [aria-checked="true"] [style*="rgb(246, 51, 102)"],
+        [data-testid="stRadio"] [aria-checked="true"] [style*="#f63366"] {{
+            background-color: #115240 !important;
+            border-color: #115240 !important;
         }}
         [data-testid="stRadio"] svg circle,
         [data-testid="stRadio"] svg path {{
@@ -1352,9 +1355,9 @@ st.markdown(
             border-radius: 10px !important;
         }}
 
-        /* Required red asterisk label (~4px larger) */
+        /* Required red asterisk label */
         .req-label {{
-            font-size: 1.125rem !important;
+            font-size: 0.9375rem !important;
             font-weight: 500;
             color: #1f2937;
             margin-bottom: 0.25rem;
@@ -1380,13 +1383,13 @@ st.markdown(
             margin-bottom: 0.6rem;
         }}
         .empty-results-title {{
-            font-size: 1.25rem !important;
+            font-size: 1.0625rem !important;
             font-weight: 700;
             color: #1f2937;
             margin-bottom: 0.3rem;
         }}
         .empty-results-sub {{
-            font-size: 1.05rem !important;
+            font-size: 0.9rem !important;
             color: #4b5563;
             margin: 0;
         }}
