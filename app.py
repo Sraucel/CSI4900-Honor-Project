@@ -667,25 +667,47 @@ if os.path.exists(FISH_BORDER_PATH):
     st.markdown(
         f"""
         <style>
-            /* Give the dropzone enough height so the fish shape isn't squished */
+            /* 1. Center the Upload button and text inside the dropzone */
             [data-testid="stFileUploaderDropzone"] {{
-                position: relative;
-                min-height: 150px !important;
+                position: relative !important;
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                justify-content: center !important;
+                min-height: 220px !important;
                 background-color: #f3f5f8 !important;
                 border: none !important;
                 border-radius: 12px !important;
             }}
 
-            /* Overlay the transparent fish border PNG without distorting it */
+            /* Center the inner instruction row and nudge it slightly right into the fish's body */
+            [data-testid="stFileUploaderDropzoneInstructions"] {{
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                text-align: center !important;
+                margin-bottom: 8px !important;
+                padding-left: 35px !important; /* Shifts text past the fish tail into the body */
+                z-index: 2 !important;
+            }}
+
+            [data-testid="stFileUploaderDropzone"] button {{
+                margin-left: 35px !important; /* Shifts the Upload button into the fish body */
+                z-index: 2 !important;
+            }}
+
+            /* 2. Overlay the fish image and make its white background transparent */
             [data-testid="stFileUploaderDropzone"]::after {{
                 content: "";
                 position: absolute;
-                inset: 6px;
+                inset: 0;
                 pointer-events: none;
+                z-index: 1;
                 background-image: url("data:image/png;base64,{fish_b64}");
-                background-size: contain;
+                background-size: 360px auto; /* Controls how big the fish is */
                 background-position: center;
                 background-repeat: no-repeat;
+                mix-blend-mode: multiply; /* Makes the white square completely invisible */
             }}
         </style>
         """,
