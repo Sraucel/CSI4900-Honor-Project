@@ -670,9 +670,12 @@ if os.path.exists(FISH_BORDER_PATH):
             [data-testid="stFileUploaderDropzone"] {{
                 position: relative !important;
                 display: flex !important;
-                flex-direction: column !important;
+                flex-direction: row !important;
                 align-items: center !important;
-                justify-content: center !important;
+                justify-content: flex-start !important;
+                width: 100% !important;
+                max-width: 440px !important;
+                margin-right: auto !important;
                 min-height: 155px !important;
                 padding: 10px !important;
                 margin-bottom: 18px !important;
@@ -681,24 +684,14 @@ if os.path.exists(FISH_BORDER_PATH):
                 border-radius: 12px !important;
             }}
 
-            [data-testid="stFileUploaderDropzone"] button {{
-                transform: translate(8px, 27px) scale(0.85) !important;
-                margin: 0 !important;
-                z-index: 2 !important;
-            }}
-
             [data-testid="stFileUploaderDropzoneInstructions"] {{
-                display: flex !important;
-                flex-direction: column !important;
-                align-items: center !important;
-                text-align: center !important;
-                transform: translate(8px, 18px) scale(0.82) !important;
-                margin: 0 !important;
-                z-index: 2 !important;
+                display: none !important;
             }}
 
-            [data-testid="stFileUploaderDropzoneInstructions"] svg {{
-                display: none !important;
+            [data-testid="stFileUploaderDropzone"] button {{
+                transform: translate(118px, 6px) scale(0.9) !important;
+                margin: 0 !important;
+                z-index: 2 !important;
             }}
 
             [data-testid="stFileUploaderDropzone"]::after {{
@@ -709,7 +702,7 @@ if os.path.exists(FISH_BORDER_PATH):
                 z-index: 1;
                 background-image: url("data:image/png;base64,{fish_b64}");
                 background-size: 275px auto;
-                background-position: calc(50% - 20px) center;
+                background-position: 28px center;
                 background-repeat: no-repeat;
                 mix-blend-mode: multiply;
             }}
