@@ -667,36 +667,34 @@ if os.path.exists(FISH_BORDER_PATH):
     st.markdown(
         f"""
         <style>
-            /* 1. Center the Upload button and text inside the dropzone */
             [data-testid="stFileUploaderDropzone"] {{
                 position: relative !important;
                 display: flex !important;
                 flex-direction: column !important;
                 align-items: center !important;
                 justify-content: center !important;
-                min-height: 220px !important;
+                min-height: 230px !important;
+                padding-top: 38px !important; /* Pushes the button & text down into the fish's belly */
                 background-color: #f3f5f8 !important;
                 border: none !important;
                 border-radius: 12px !important;
             }}
 
-            /* Center the inner instruction row and nudge it slightly right into the fish's body */
             [data-testid="stFileUploaderDropzoneInstructions"] {{
                 display: flex !important;
                 flex-direction: column !important;
                 align-items: center !important;
                 text-align: center !important;
-                margin-bottom: 8px !important;
-                padding-left: 35px !important; /* Shifts text past the fish tail into the body */
+                margin-bottom: 4px !important;
+                padding-left: 55px !important; /* Centers text inside the wide part of the body */
                 z-index: 2 !important;
             }}
 
             [data-testid="stFileUploaderDropzone"] button {{
-                margin-left: 35px !important; /* Shifts the Upload button into the fish body */
+                margin-left: 55px !important; /* Centers the Upload button inside the wide part of the body */
                 z-index: 2 !important;
             }}
 
-            /* 2. Overlay the fish image and make its white background transparent */
             [data-testid="stFileUploaderDropzone"]::after {{
                 content: "";
                 position: absolute;
@@ -704,10 +702,10 @@ if os.path.exists(FISH_BORDER_PATH):
                 pointer-events: none;
                 z-index: 1;
                 background-image: url("data:image/png;base64,{fish_b64}");
-                background-size: 360px auto; /* Controls how big the fish is */
+                background-size: 380px auto; /* Slightly wider fish so button + text both fit inside */
                 background-position: center;
                 background-repeat: no-repeat;
-                mix-blend-mode: multiply; /* Makes the white square completely invisible */
+                mix-blend-mode: multiply;
             }}
         </style>
         """,
