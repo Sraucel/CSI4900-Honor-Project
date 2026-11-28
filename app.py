@@ -675,13 +675,14 @@ if os.path.exists(FISH_BORDER_PATH):
                 justify-content: center !important;
                 min-height: 155px !important;
                 padding: 10px !important;
+                margin-bottom: 18px !important;
                 background-color: #f3f5f8 !important;
                 border: none !important;
                 border-radius: 12px !important;
             }}
 
             [data-testid="stFileUploaderDropzone"] button {{
-                transform: translate(16px, 22px) scale(0.85) !important;
+                transform: translate(8px, 27px) scale(0.85) !important;
                 margin: 0 !important;
                 z-index: 2 !important;
             }}
@@ -691,7 +692,7 @@ if os.path.exists(FISH_BORDER_PATH):
                 flex-direction: column !important;
                 align-items: center !important;
                 text-align: center !important;
-                transform: translate(16px, 18px) scale(0.82) !important;
+                transform: translate(8px, 18px) scale(0.82) !important;
                 margin: 0 !important;
                 z-index: 2 !important;
             }}
