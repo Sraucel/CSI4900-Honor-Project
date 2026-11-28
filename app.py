@@ -1220,6 +1220,20 @@ st.markdown(
             {bg_css}
         }}
 
+        /* Increase font sizes by ~4px across text, labels, inputs, and buttons */
+        html, body, [data-testid="stAppViewContainer"], .stApp,
+        [data-testid="stMarkdownContainer"] p,
+        [data-testid="stMarkdownContainer"] li,
+        [data-testid="stWidgetLabel"] label,
+        [data-testid="stRadio"] label,
+        [data-testid="stCheckbox"] label,
+        [data-testid="stTextInput"] input,
+        [data-testid="stTextArea"] textarea,
+        [data-testid="stSelectbox"] > div > div,
+        button {{
+            font-size: calc(1em + 4px) !important;
+        }}
+
         /* Prevent background image from repeating on inner text/input elements */
         h1, h2, h3, h4, h5, h6, p, label, li,
         input, textarea, select, button,
@@ -1233,6 +1247,7 @@ st.markdown(
         .material-symbols-rounded,
         .material-icons {{
             font-family: 'Material Symbols Rounded', 'Material Icons' !important;
+            font-size: 1.25rem !important;
         }}
 
         [data-testid="stHeader"] {{
@@ -1296,19 +1311,28 @@ st.markdown(
         /* Radio button active circle & border in #115240 */
         [data-testid="stRadio"] input[type="radio"]:checked + div,
         [data-testid="stRadio"] label[data-checked="true"] > div:first-child,
-        [data-testid="stRadio"] [role="radio"][aria-checked="true"] > div:first-child {{
+        [data-testid="stRadio"] [role="radio"][aria-checked="true"] > div:first-child,
+        [data-testid="stRadio"] [data-baseweb="radio"] > div:first-child {{
             background-color: #115240 !important;
             border-color: #115240 !important;
         }}
         [data-testid="stRadio"] input[type="radio"]:checked + div::before,
         [data-testid="stRadio"] input[type="radio"]:checked + div::after,
         [data-testid="stRadio"] label[data-checked="true"] > div:first-child::before,
-        [data-testid="stRadio"] label[data-checked="true"] > div:first-child::after {{
+        [data-testid="stRadio"] label[data-checked="true"] > div:first-child::after,
+        [data-testid="stRadio"] [data-baseweb="radio"] > div:first-child > div,
+        [data-testid="stRadio"] input:checked ~ div,
+        [data-testid="stRadio"] input[type="radio"]:checked + * {{
             background-color: #115240 !important;
             border-color: #115240 !important;
         }}
         [data-testid="stRadio"] [role="radio"][aria-checked="true"] > div:first-child > div {{
             background-color: #ffffff !important;
+        }}
+        [data-testid="stRadio"] svg circle,
+        [data-testid="stRadio"] svg path {{
+            stroke: #115240 !important;
+            fill: #115240 !important;
         }}
         [data-testid="stRadio"] input[type="radio"] {{
             accent-color: #115240 !important;
@@ -1328,9 +1352,9 @@ st.markdown(
             border-radius: 10px !important;
         }}
 
-        /* Required red asterisk label */
+        /* Required red asterisk label (~4px larger) */
         .req-label {{
-            font-size: 0.875rem;
+            font-size: 1.125rem !important;
             font-weight: 500;
             color: #1f2937;
             margin-bottom: 0.25rem;
@@ -1351,18 +1375,18 @@ st.markdown(
             margin-top: 0.5rem;
         }}
         .empty-results-icon {{
-            font-size: 2rem;
+            font-size: 2.25rem;
             line-height: 1;
             margin-bottom: 0.6rem;
         }}
         .empty-results-title {{
-            font-size: 1.05rem;
+            font-size: 1.25rem !important;
             font-weight: 700;
             color: #1f2937;
             margin-bottom: 0.3rem;
         }}
         .empty-results-sub {{
-            font-size: 0.9rem;
+            font-size: 1.05rem !important;
             color: #4b5563;
             margin: 0;
         }}
