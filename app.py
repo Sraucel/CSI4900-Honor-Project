@@ -997,6 +997,7 @@ REVIEW_THRESHOLD = 0.35
 with st.container(border=True, key="card_results"):
     st.subheader("Analysis Results")
     analyze_clicked = st.button("Analyze Email", type="primary")
+    progress_slot = st.empty()
 
     if not analyze_clicked:
         render_empty_results_placeholder()
@@ -1007,38 +1008,48 @@ with st.container(border=True, key="card_results"):
     elif not email_body.strip():
         render_empty_results_placeholder("⚠️ Please enter email content, and double-check your other inputs!")
     else:
-        combined_text = f"{subject} {email_body}"
-        extracted_urls = [
-            u.rstrip(".,;:)]}>\"'")
-            for u in re.findall(r"https?://[^\s]+|www\.[^\s]+", combined_text)
-        ]
+        with progress_slot.container():
+            progress_bar = st.progress(10, text="Extracting links, attachments, and sender domain...")
 
-        attachment_results = [
-            analyze_attachment_filename(name)
-            for name in attachment_filenames
-        ]
+            combined_text = f"{subject} {email_body}"
+            extracted_urls = [
+                u.rstrip(".,;:)]}>\"'")
+                for u in re.findall(r"https?://[^\s]+|www\.[^\s]+", combined_text)
+            ]
 
-        if extracted_urls:
-            vt_flagged, link_error = check_virustotal_links(extracted_urls[:5])
-        else:
-            vt_flagged, link_error = False, False
+            attachment_results = [
+                analyze_attachment_filename(name)
+                for name in attachment_filenames
+            ]
 
-        domain = normalize_domain(sender_domain) if sender_domain.strip() else None
-        if sender_domain.strip() and domain is None:
-            st.warning("The provided sender domain doesn't look like a valid domain. The sender-domain check was skipped.")
-        domain_hits, domain_error = check_virustotal_domain(domain) if domain else (0, False)
-        domain_flagged = domain_hits >= MIN_MALICIOUS_ENGINES
+            progress_bar.progress(35, text="Checking links and sender domain with VirusTotal...")
+            if extracted_urls:
+                vt_flagged, link_error = check_virustotal_links(extracted_urls[:5])
+            else:
+                vt_flagged, link_error = False, False
 
-        phishing_prob = classify_email(
-            subject,
-            email_body,
-            contains_attachment,
-            attachment_type,
-            day_of_week,
-            hour,
-            device_type,
-            email_client,
-        )
+            domain = normalize_domain(sender_domain) if sender_domain.strip() else None
+            if sender_domain.strip() and domain is None:
+                st.warning("The provided sender domain doesn't look like a valid domain. The sender-domain check was skipped.")
+            domain_hits, domain_error = check_virustotal_domain(domain) if domain else (0, False)
+            domain_flagged = domain_hits >= MIN_MALICIOUS_ENGINES
+
+            progress_bar.progress(75, text="Running phishing classification model...")
+            phishing_prob = classify_email(
+                subject,
+                email_body,
+                contains_attachment,
+                attachment_type,
+                day_of_week,
+                hour,
+                device_type,
+                email_client,
+            )
+
+            progress_bar.progress(100, text="Finalizing analysis results...")
+
+        # Remove the loading bar once all checks and model inference finish
+        progress_slot.empty()
 
         vt_confirmed = vt_flagged or domain_flagged
         is_flagged = vt_confirmed or phishing_prob >= 0.5
