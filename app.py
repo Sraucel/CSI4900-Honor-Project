@@ -644,27 +644,6 @@ st.markdown(
             color: #6b7280;
             margin: 0;
         }
-        /* Fish-shaped dotted border around the .eml file uploader */
-        [data-testid="stFileUploader"] {
-            position: relative;
-            padding: 18px 20px !important;
-            background-color: #f3f5f8 !important;
-            border-radius: 10px !important;
-            border: none !important;
-        }
-
-        [data-testid="stFileUploader"]::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%' viewBox='0 0 100 100' preserveAspectRatio='none'><path d='M 4 20 A 4 4 0 0 1 8 16 L 40 16 C 45 16, 46 22, 50 20 L 52 14 L 52 26 L 50 20 C 53 23, 60 20, 65 17 C 72 13, 85 14, 91 22 C 94 25, 96 30, 91 38 C 85 46, 72 47, 65 43 C 60 40, 53 37, 50 40 L 52 34 L 52 46 L 50 40 C 46 38, 45 44, 40 44 L 8 44 A 4 4 0 0 1 4 40 Z' fill='none' stroke='%23a1dbf1' stroke-width='1.5' stroke-dasharray='3 3'/><circle cx='87' cy='29' r='1' fill='%23a1dbf1'/></svg>");
-            background-size: 100% 100%;
-            background-repeat: no-repeat;
-        }
 
         footer,
         [data-testid="stFooter"],
@@ -680,6 +659,38 @@ st.markdown(
 def get_base64_image(image_path: str) -> str:
     with open(image_path, "rb") as f:
         return base64.b64encode(f.read()).decode()
+
+FISH_BORDER_PATH = os.path.join(APP_DIR, "fish_border.png")
+
+if os.path.exists(FISH_BORDER_PATH):
+    fish_b64 = get_base64_image(FISH_BORDER_PATH)
+    st.markdown(
+        f"""
+        <style>
+            /* Give the dropzone enough height so the fish shape isn't squished */
+            [data-testid="stFileUploaderDropzone"] {{
+                position: relative;
+                min-height: 150px !important;
+                background-color: #f3f5f8 !important;
+                border: none !important;
+                border-radius: 12px !important;
+            }}
+
+            /* Overlay the transparent fish border PNG without distorting it */
+            [data-testid="stFileUploaderDropzone"]::after {{
+                content: "";
+                position: absolute;
+                inset: 6px;
+                pointer-events: none;
+                background-image: url("data:image/png;base64,{fish_b64}");
+                background-size: contain;
+                background-position: center;
+                background-repeat: no-repeat;
+            }}
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
 
 with st.container(border=True, key="card_header"):
     if os.path.exists(LOGO_PATH):
