@@ -1137,7 +1137,7 @@ with st.sidebar:
     
 import mimetypes
 
-BG_IMAGE_PATH = os.path.join(APP_DIR, "fish_background.png")
+BG_IMAGE_PATH = os.path.join(APP_DIR, "fish_background.jpg")
 
 if os.path.exists(BG_IMAGE_PATH):
     bg_b64 = get_base64_image(BG_IMAGE_PATH)
@@ -1160,17 +1160,57 @@ if os.path.exists(BG_IMAGE_PATH):
                 background: transparent !important;
             }}
 
-            /* Target modern Streamlit bordered containers & keyed cards */
-            [data-testid="stLayoutWrapper"] > div:has(> [data-testid="stVerticalBlock"]),
-            [data-testid="stVerticalBlockBorderWrapper"],
-            [class*="st-key-card_"] {{
+            /* Semi-transparent pond-tinted frosted cards */
+            [data-testid="stAppViewContainer"] [data-testid="stVerticalBlockBorderWrapper"],
+            [data-testid="stAppViewContainer"] [data-testid="stLayoutWrapper"] > div:has(> [data-testid="stVerticalBlock"]),
+            [data-testid="stAppViewContainer"] [class*="st-key-card_"] {{
                 background-color: rgba(218, 238, 242, 0.82) !important;
                 backdrop-filter: blur(8px) !important;
                 -webkit-backdrop-filter: blur(8px) !important;
                 border-color: rgba(255, 255, 255, 0.55) !important;
                 border-radius: 16px !important;
             }}
+
+            /* Prevent inner wrappers from painting solid white strips over the frosted card */
+            [data-testid="stAppViewContainer"] [data-testid="stVerticalBlockBorderWrapper"] > div,
+            [data-testid="stAppViewContainer"] [data-testid="stVerticalBlockBorderWrapper"] [data-testid="stVerticalBlock"],
+            [data-testid="stAppViewContainer"] [data-testid="stVerticalBlockBorderWrapper"] [data-testid="stElementContainer"],
+            [data-testid="stAppViewContainer"] [data-testid="stVerticalBlockBorderWrapper"] [data-testid="stMarkdownContainer"],
+            [data-testid="stAppViewContainer"] [data-testid="stVerticalBlockBorderWrapper"] [data-testid="stRadio"] > div {{
+                background-color: transparent !important;
+            }}
         </style>
         """,
         unsafe_allow_html=True,
     )
+
+st.markdown(
+    """
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap');
+
+        /* Apply Nunito across text, headings, inputs, buttons, and labels */
+        html, body, [data-testid="stAppViewContainer"],
+        h1, h2, h3, h4, h5, h6, p, label, li,
+        input, textarea, select, button,
+        [data-baseweb="select"], [data-baseweb="input"], [data-baseweb="textarea"],
+        [data-testid="stMarkdownContainer"] * {
+            font-family: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif !important;
+        }
+
+        /* Keep Streamlit's built-in Material icons intact so chevrons/arrows don't turn into text */
+        [data-testid="stIconMaterial"],
+        .material-symbols-rounded,
+        .material-icons {
+            font-family: 'Material Symbols Rounded', 'Material Icons' !important;
+        }
+
+        /* Slightly heavier, rounder feel for the main title and section headers */
+        h1, h2, h3 {
+            font-weight: 800 !important;
+            letter-spacing: -0.01em !important;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
