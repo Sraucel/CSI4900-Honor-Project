@@ -674,7 +674,7 @@ if os.path.exists(FISH_BORDER_PATH):
                 align-items: center !important;
                 justify-content: flex-start !important;
                 width: 100% !important;
-                max-width: 440px !important;
+                max-width: 330px !important;
                 margin-right: auto !important;
                 min-height: 155px !important;
                 padding: 10px !important;
@@ -689,7 +689,7 @@ if os.path.exists(FISH_BORDER_PATH):
             }}
 
             [data-testid="stFileUploaderDropzone"] button {{
-                transform: translate(118px, 6px) scale(0.9) !important;
+                transform: translate(132px, 0px) scale(0.9) !important;
                 margin: 0 !important;
                 z-index: 2 !important;
             }}
@@ -857,9 +857,9 @@ with st.container(border=True, key="card_inputs"):
             placeholder="e.g. paypa1-secure.com",
         )
     else:
-        req_label("Upload .eml File")
+        req_label("Upload .eml File (200 MB Limit)")
         uploaded_eml = st.file_uploader(
-            "Upload .eml File",
+            "Upload .eml File (200 MB Limit)",
             type=["eml"],
             label_visibility="collapsed",
         )
