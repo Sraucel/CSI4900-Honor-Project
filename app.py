@@ -1294,6 +1294,29 @@ st.markdown(
             box-shadow: none !important;
         }}
 
+        /* High-contrast text for readability over frosted/sidebar surfaces */
+        [data-testid="stSidebar"],
+        [data-testid="stSidebar"] p,
+        [data-testid="stSidebar"] li,
+        [data-testid="stSidebar"] label,
+        [class*="st-key-card_"] p,
+        [class*="st-key-card_"] li,
+        [class*="st-key-card_"] label,
+        .req-label,
+        .empty-results-sub {{
+            color: #0f172a !important;
+        }}
+
+        [data-testid="stSidebar"] h1,
+        [data-testid="stSidebar"] h2,
+        [data-testid="stSidebar"] h3,
+        [class*="st-key-card_"] h1,
+        [class*="st-key-card_"] h2,
+        [class*="st-key-card_"] h3,
+        .empty-results-title {{
+            color: #0a362a !important;
+        }}
+
         /* Primary button ("Analyze Email") in #115240 */
         [data-testid="stBaseButton-primary"],
         button[kind="primary"] {{
@@ -1308,50 +1331,17 @@ st.markdown(
             color: #ffffff !important;
         }}
 
-        /* Force checked radio circle, border, and inner dot to #115240 */
-        [data-testid="stRadio"] input[type="radio"]:checked + div,
-        [data-testid="stRadio"] input[type="radio"]:checked ~ div,
-        [data-testid="stRadio"] label[data-checked="true"] > div:first-child,
-        [data-testid="stRadio"] [role="radio"][aria-checked="true"] > div:first-child,
-        [data-testid="stRadio"] [data-baseweb="radio"][aria-checked="true"] > div:first-child {{
-            background-color: #115240 !important;
-            border-color: #115240 !important;
-            box-shadow: inset 0 0 0 3px #ffffff, 0 0 0 1px #115240 !important;
-        }}
-        [data-testid="stRadio"] input[type="radio"]:checked + div *,
-        [data-testid="stRadio"] label[data-checked="true"] > div:first-child *,
-        [data-testid="stRadio"] [role="radio"][aria-checked="true"] > div:first-child *,
-        [data-testid="stRadio"] [data-baseweb="radio"][aria-checked="true"] > div:first-child * {{
-            border-color: #115240 !important;
-        }}
-        [data-testid="stRadio"] [aria-checked="true"] [style*="rgb(255, 75, 75)"],
-        [data-testid="stRadio"] [aria-checked="true"] [style*="#ff4b4b"],
-        [data-testid="stRadio"] [aria-checked="true"] [style*="#FF4B4B"],
-        [data-testid="stRadio"] [aria-checked="true"] [style*="rgb(246, 51, 102)"],
-        [data-testid="stRadio"] [aria-checked="true"] [style*="#f63366"] {{
-            background-color: #115240 !important;
-            border-color: #115240 !important;
-        }}
-        [data-testid="stRadio"] svg circle,
-        [data-testid="stRadio"] svg path {{
-            stroke: #115240 !important;
-            fill: #115240 !important;
-        }}
-        [data-testid="stRadio"] input[type="radio"] {{
-            accent-color: #115240 !important;
-        }}
-
         /* Keep inputs, textareas, and selectboxes legible */
         [data-testid="stTextInput"] input,
         [data-testid="stTextArea"] textarea {{
             background-color: rgba(243, 245, 248, 0.95) !important;
-            color: #1f2937 !important;
+            color: #0f172a !important;
             border: 1px solid #dfe4ec !important;
             border-radius: 10px !important;
         }}
         [data-testid="stSelectbox"] > div > div {{
             background-color: rgba(243, 245, 248, 0.95) !important;
-            color: #1f2937 !important;
+            color: #0f172a !important;
             border-radius: 10px !important;
         }}
 
@@ -1359,7 +1349,6 @@ st.markdown(
         .req-label {{
             font-size: 0.9375rem !important;
             font-weight: 500;
-            color: #1f2937;
             margin-bottom: 0.25rem;
             line-height: 1.4;
         }}
@@ -1374,7 +1363,7 @@ st.markdown(
             border: none !important;
             padding: 2rem 1rem;
             text-align: center;
-            color: #374151;
+            color: #0f172a;
             margin-top: 0.5rem;
         }}
         .empty-results-icon {{
@@ -1385,12 +1374,10 @@ st.markdown(
         .empty-results-title {{
             font-size: 1.0625rem !important;
             font-weight: 700;
-            color: #1f2937;
             margin-bottom: 0.3rem;
         }}
         .empty-results-sub {{
             font-size: 0.9rem !important;
-            color: #4b5563;
             margin: 0;
         }}
 
