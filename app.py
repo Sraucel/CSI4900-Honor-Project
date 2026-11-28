@@ -1209,11 +1209,23 @@ if os.path.exists(BG_IMAGE_PATH):
 st.markdown(
     f"""
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech&display=swap');
 
-        html, body, [data-testid="stAppViewContainer"], .stApp {{
-            font-family: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif !important;
+        html, body, [data-testid="stAppViewContainer"], .stApp,
+        h1, h2, h3, h4, h5, h6, p, label, li,
+        input, textarea, select, button,
+        [data-baseweb="select"], [data-baseweb="input"], [data-baseweb="textarea"],
+        [data-testid="stMarkdownContainer"] * {{
+            font-family: 'Share Tech', sans-serif !important;
             {bg_css}
+        }}
+
+        /* Prevent background image from repeating on inner text/input elements */
+        h1, h2, h3, h4, h5, h6, p, label, li,
+        input, textarea, select, button,
+        [data-baseweb="select"], [data-baseweb="input"], [data-baseweb="textarea"],
+        [data-testid="stMarkdownContainer"] * {{
+            background-image: none !important;
         }}
 
         /* Keep Material icons from turning into text */
@@ -1227,8 +1239,10 @@ st.markdown(
             background: transparent !important;
         }}
         [data-testid="stSidebar"] {{
-            background-color: rgba(245, 247, 250, 0.92) !important;
-            border-right: 1px solid #d8dee6 !important;
+            background-color: rgba(150, 160, 170, 0.94) !important;
+            backdrop-filter: blur(6px) !important;
+            -webkit-backdrop-filter: blur(6px) !important;
+            border-right: 1px solid rgba(15, 23, 42, 0.14) !important;
         }}
         .block-container {{
             padding-top: 2rem;
@@ -1263,6 +1277,41 @@ st.markdown(
             border: none !important;
             outline: none !important;
             box-shadow: none !important;
+        }}
+
+        /* Primary button ("Analyze Email") in #115240 */
+        [data-testid="stBaseButton-primary"],
+        button[kind="primary"] {{
+            background-color: #115240 !important;
+            border-color: #115240 !important;
+            color: #ffffff !important;
+        }}
+        [data-testid="stBaseButton-primary"]:hover,
+        button[kind="primary"]:hover {{
+            background-color: #0d3f31 !important;
+            border-color: #0d3f31 !important;
+            color: #ffffff !important;
+        }}
+
+        /* Radio button active circle & border in #115240 */
+        [data-testid="stRadio"] input[type="radio"]:checked + div,
+        [data-testid="stRadio"] label[data-checked="true"] > div:first-child,
+        [data-testid="stRadio"] [role="radio"][aria-checked="true"] > div:first-child {{
+            background-color: #115240 !important;
+            border-color: #115240 !important;
+        }}
+        [data-testid="stRadio"] input[type="radio"]:checked + div::before,
+        [data-testid="stRadio"] input[type="radio"]:checked + div::after,
+        [data-testid="stRadio"] label[data-checked="true"] > div:first-child::before,
+        [data-testid="stRadio"] label[data-checked="true"] > div:first-child::after {{
+            background-color: #115240 !important;
+            border-color: #115240 !important;
+        }}
+        [data-testid="stRadio"] [role="radio"][aria-checked="true"] > div:first-child > div {{
+            background-color: #ffffff !important;
+        }}
+        [data-testid="stRadio"] input[type="radio"] {{
+            accent-color: #115240 !important;
         }}
 
         /* Keep inputs, textareas, and selectboxes legible */
