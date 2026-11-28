@@ -689,7 +689,7 @@ if os.path.exists(FISH_BORDER_PATH):
             }}
 
             [data-testid="stFileUploaderDropzone"] button {{
-                transform: translate(132px, 0px) scale(0.9) !important;
+                transform: translate(142px, 0px) scale(0.9) !important;
                 margin: 0 !important;
                 z-index: 2 !important;
             }}
