@@ -713,13 +713,13 @@ if os.path.exists(FISH_BORDER_PATH):
 
 import mimetypes
 
-BG_IMAGE_PATH = os.path.join(APP_DIR, "fish_background.jpg") 
+BG_IMAGE_PATH = os.path.join(APP_DIR, "fish_background.jpg")
 
 if os.path.exists(BG_IMAGE_PATH):
     bg_b64 = get_base64_image(BG_IMAGE_PATH)
     mime_type, _ = mimetypes.guess_type(BG_IMAGE_PATH)
     if not mime_type:
-        mime_type = "image/png"
+        mime_type = "image/jpeg"
 
     st.markdown(
         f"""
@@ -737,9 +737,12 @@ if os.path.exists(BG_IMAGE_PATH):
                 background: transparent !important;
             }}
 
-            /* Ensure white card containers stay crisp over busy background images */
+            /* Frosted, color-matched card containers */
             [data-testid="stVerticalBlockBorderWrapper"] {{
-                background-color: rgba(255, 255, 255, 0.96) !important;
+                background-color: rgba(236, 244, 248, 0.88) !important;
+                backdrop-filter: blur(6px) !important;
+                -webkit-backdrop-filter: blur(6px) !important;
+                border-color: rgba(255, 255, 255, 0.45) !important;
             }}
         </style>
         """,
