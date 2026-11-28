@@ -546,7 +546,12 @@ def extract_features(subject, body, has_attachment, att_type, day, hr, device, c
     
     return sample
 
-st.set_page_config(page_title="Phishing Email Detector", page_icon="🎣", layout="wide")
+LOGO_PATH = os.path.join(APP_DIR, "phishing_logo.jpeg")
+st.set_page_config(
+    page_title="Aruka: Phishing Email Detector",
+    page_icon=LOGO_PATH if os.path.exists(LOGO_PATH) else "🎣",
+    layout="wide",
+)
 
 st.markdown(
     """
@@ -639,6 +644,27 @@ st.markdown(
             color: #6b7280;
             margin: 0;
         }
+        /* Fish-shaped dotted border around the .eml file uploader */
+        [data-testid="stFileUploader"] {
+            position: relative;
+            padding: 18px 20px !important;
+            background-color: #f3f5f8 !important;
+            border-radius: 10px !important;
+            border: none !important;
+        }
+
+        [data-testid="stFileUploader"]::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%' viewBox='0 0 100 100' preserveAspectRatio='none'><path d='M 4 20 A 4 4 0 0 1 8 16 L 40 16 C 45 16, 46 22, 50 20 L 52 14 L 52 26 L 50 20 C 53 23, 60 20, 65 17 C 72 13, 85 14, 91 22 C 94 25, 96 30, 91 38 C 85 46, 72 47, 65 43 C 60 40, 53 37, 50 40 L 52 34 L 52 46 L 50 40 C 46 38, 45 44, 40 44 L 8 44 A 4 4 0 0 1 4 40 Z' fill='none' stroke='%23a1dbf1' stroke-width='1.5' stroke-dasharray='3 3'/><circle cx='87' cy='29' r='1' fill='%23a1dbf1'/></svg>");
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+        }
 
         footer,
         [data-testid="stFooter"],
@@ -651,8 +677,27 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+def get_base64_image(image_path: str) -> str:
+    with open(image_path, "rb") as f:
+        return base64.b64encode(f.read()).decode()
+
 with st.container(border=True, key="card_header"):
-    st.title("🎣 Phishing Email Detector")
+    if os.path.exists(LOGO_PATH):
+        logo_b64 = get_base64_image(LOGO_PATH)
+        st.markdown(
+            f"""
+            <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 0.25rem;">
+                <img src="data:image/png;base64,{logo_b64}" width="54" height="54" style="object-fit: contain;" />
+                <h1 style="margin: 0; padding: 0; font-size: 2.25rem; font-weight: 700; color: #1f2937;">
+                    Aruka: Phishing Email Detector
+                </h1>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+    else:
+        st.title("🎣 Phishing Email Detector")
+
     st.caption(
         "Think your email might be phishing? Input the email's information in the provided fields to find out!"
     )
@@ -731,8 +776,21 @@ def req_label(text: str):
     )
 
 
+def clear_email_text():
+    st.session_state["manual_subject"] = ""
+    st.session_state["manual_body"] = ""
+
 with st.container(border=True, key="card_inputs"):
-    st.subheader("Email Inputs")
+    # Header row: Subheader on the left, Clear Text button on the top-right
+    header_col, btn_col = st.columns([6, 1], vertical_alignment="center")
+    with header_col:
+        st.subheader("Email Inputs")
+    with btn_col:
+        st.button(
+            "Clear Text",
+            on_click=clear_email_text,
+            use_container_width=True,
+        )
 
     input_mode = st.radio(
         "Input Method",
@@ -752,6 +810,7 @@ with st.container(border=True, key="card_inputs"):
             "Enter Email Subject Line",
             placeholder="e.g., URGENT: Verify your account",
             label_visibility="collapsed",
+            key="manual_subject",  # <-- Links this box to clear_email_text()
         )
 
         req_label("Enter Email Content")
@@ -760,6 +819,7 @@ with st.container(border=True, key="card_inputs"):
             height=220,
             placeholder="Paste the text of the email body here. Emails with little text (< 5 words) will not provide effective analysis.",
             label_visibility="collapsed",
+            key="manual_body",     # <-- Links this box to clear_email_text()
         )
 
         sender_domain = st.text_input(
