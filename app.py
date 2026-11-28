@@ -732,17 +732,22 @@ if os.path.exists(BG_IMAGE_PATH):
                 background-attachment: fixed !important;
             }}
 
-            /* Keep top header transparent/blended so there isn't a solid strip at the top */
             [data-testid="stHeader"] {{
                 background: transparent !important;
             }}
 
-            /* Frosted, color-matched card containers */
-            [data-testid="stVerticalBlockBorderWrapper"] {{
-                background-color: rgba(236, 244, 248, 0.88) !important;
-                backdrop-filter: blur(6px) !important;
-                -webkit-backdrop-filter: blur(6px) !important;
-                border-color: rgba(255, 255, 255, 0.45) !important;
+            /* Semi-transparent pond-tinted frosted cards */
+            [data-testid="stAppViewContainer"] [data-testid="stVerticalBlockBorderWrapper"] {{
+                background-color: rgba(218, 238, 242, 0.80) !important;
+                backdrop-filter: blur(8px) !important;
+                -webkit-backdrop-filter: blur(8px) !important;
+                border-color: rgba(255, 255, 255, 0.55) !important;
+            }}
+
+            /* Prevent inner divs from painting a solid surface over the card tint */
+            [data-testid="stAppViewContainer"] [data-testid="stVerticalBlockBorderWrapper"] > div,
+            [data-testid="stAppViewContainer"] [data-testid="stVerticalBlockBorderWrapper"] [data-testid="stVerticalBlock"] {{
+                background-color: transparent !important;
             }}
         </style>
         """,
