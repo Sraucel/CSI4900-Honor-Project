@@ -711,49 +711,6 @@ if os.path.exists(FISH_BORDER_PATH):
         unsafe_allow_html=True,
     )
 
-import mimetypes
-
-BG_IMAGE_PATH = os.path.join(APP_DIR, "fish_background.jpg")
-
-if os.path.exists(BG_IMAGE_PATH):
-    bg_b64 = get_base64_image(BG_IMAGE_PATH)
-    mime_type, _ = mimetypes.guess_type(BG_IMAGE_PATH)
-    if not mime_type:
-        mime_type = "image/jpeg"
-
-    st.markdown(
-        f"""
-        <style>
-            [data-testid="stAppViewContainer"] {{
-                background-image: url("data:{mime_type};base64,{bg_b64}") !important;
-                background-size: cover !important;
-                background-position: center !important;
-                background-repeat: no-repeat !important;
-                background-attachment: fixed !important;
-            }}
-
-            [data-testid="stHeader"] {{
-                background: transparent !important;
-            }}
-
-            /* Semi-transparent pond-tinted frosted cards */
-            [data-testid="stAppViewContainer"] [data-testid="stVerticalBlockBorderWrapper"] {{
-                background-color: rgba(218, 238, 242, 0.80) !important;
-                backdrop-filter: blur(8px) !important;
-                -webkit-backdrop-filter: blur(8px) !important;
-                border-color: rgba(255, 255, 255, 0.55) !important;
-            }}
-
-            /* Prevent inner divs from painting a solid surface over the card tint */
-            [data-testid="stAppViewContainer"] [data-testid="stVerticalBlockBorderWrapper"] > div,
-            [data-testid="stAppViewContainer"] [data-testid="stVerticalBlockBorderWrapper"] [data-testid="stVerticalBlock"] {{
-                background-color: transparent !important;
-            }}
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )
-
 with st.container(border=True, key="card_header"):
     if os.path.exists(LOGO_PATH):
         logo_b64 = get_base64_image(LOGO_PATH)
@@ -1178,3 +1135,45 @@ with st.sidebar:
         "- *Copy Paste Guidlines:* While pasting text into the tool, avoid clicking on any links from the email or downloading any attachments. These actions are not required to use the detector."
     )
     
+import mimetypes
+
+BG_IMAGE_PATH = os.path.join(APP_DIR, "fish_background.jpg")
+
+if os.path.exists(BG_IMAGE_PATH):
+    bg_b64 = get_base64_image(BG_IMAGE_PATH)
+    mime_type, _ = mimetypes.guess_type(BG_IMAGE_PATH)
+    if not mime_type:
+        mime_type = "image/jpeg"
+
+    st.markdown(
+        f"""
+        <style>
+            [data-testid="stAppViewContainer"] {{
+                background-image: url("data:{mime_type};base64,{bg_b64}") !important;
+                background-size: cover !important;
+                background-position: center !important;
+                background-repeat: no-repeat !important;
+                background-attachment: fixed !important;
+            }}
+
+            [data-testid="stHeader"] {{
+                background: transparent !important;
+            }}
+
+            /* Semi-transparent pond-tinted frosted cards */
+            [data-testid="stAppViewContainer"] [data-testid="stVerticalBlockBorderWrapper"] {{
+                background-color: rgba(218, 238, 242, 0.80) !important;
+                backdrop-filter: blur(8px) !important;
+                -webkit-backdrop-filter: blur(8px) !important;
+                border-color: rgba(255, 255, 255, 0.55) !important;
+            }}
+
+            /* Prevent inner divs from painting a solid surface over the card tint */
+            [data-testid="stAppViewContainer"] [data-testid="stVerticalBlockBorderWrapper"] > div,
+            [data-testid="stAppViewContainer"] [data-testid="stVerticalBlockBorderWrapper"] [data-testid="stVerticalBlock"] {{
+                background-color: transparent !important;
+            }}
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
