@@ -1137,7 +1137,7 @@ with st.sidebar:
     
 import mimetypes
 
-BG_IMAGE_PATH = os.path.join(APP_DIR, "fish_background.jpg")
+BG_IMAGE_PATH = os.path.join(APP_DIR, "fish_background.png")
 
 if os.path.exists(BG_IMAGE_PATH):
     bg_b64 = get_base64_image(BG_IMAGE_PATH)
@@ -1160,18 +1160,15 @@ if os.path.exists(BG_IMAGE_PATH):
                 background: transparent !important;
             }}
 
-            /* Semi-transparent pond-tinted frosted cards */
-            [data-testid="stAppViewContainer"] [data-testid="stVerticalBlockBorderWrapper"] {{
-                background-color: rgba(218, 238, 242, 0.80) !important;
+            /* Target modern Streamlit bordered containers & keyed cards */
+            [data-testid="stLayoutWrapper"] > div:has(> [data-testid="stVerticalBlock"]),
+            [data-testid="stVerticalBlockBorderWrapper"],
+            [class*="st-key-card_"] {{
+                background-color: rgba(218, 238, 242, 0.82) !important;
                 backdrop-filter: blur(8px) !important;
                 -webkit-backdrop-filter: blur(8px) !important;
                 border-color: rgba(255, 255, 255, 0.55) !important;
-            }}
-
-            /* Prevent inner divs from painting a solid surface over the card tint */
-            [data-testid="stAppViewContainer"] [data-testid="stVerticalBlockBorderWrapper"] > div,
-            [data-testid="stAppViewContainer"] [data-testid="stVerticalBlockBorderWrapper"] [data-testid="stVerticalBlock"] {{
-                background-color: transparent !important;
+                border-radius: 16px !important;
             }}
         </style>
         """,
