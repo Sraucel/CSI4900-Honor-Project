@@ -817,7 +817,7 @@ with st.container(border=True, key="card_inputs"):
         email_body = st.text_area(
             "Enter Email Content",
             height=220,
-            placeholder="Paste the text of the email body here. Emails with little text (< 5 words) will not provide effective analysis.",
+            placeholder="e.g., Your account has been locked until further notice.",
             label_visibility="collapsed",
             key="manual_body",     # <-- Links this box to clear_email_text()
         )
