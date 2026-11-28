@@ -1231,7 +1231,7 @@ st.markdown(
         [data-testid="stTextArea"] textarea,
         [data-testid="stSelectbox"] > div > div,
         button {{
-            font-size: calc(1em + 4px) !important;
+            font-size: calc(1em + 1px) !important;
         }}
 
         /* Prevent background image from repeating on inner text/input elements */
