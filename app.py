@@ -561,11 +561,13 @@ st.markdown(
             background-color: #e9edf2 !important;
         }
         [data-testid="stHeader"] {
-            background-color: rgba(233, 237, 242, 0.85) !important;
+            background: transparent !important;
         }
         [data-testid="stSidebar"] {
-            background-color: #f5f7fa !important;
-            border-right: 1px solid #d8dee6 !important;
+            background-color: rgba(198, 206, 214, 0.90) !important;
+            backdrop-filter: blur(6px) !important;
+            -webkit-backdrop-filter: blur(6px) !important;
+            border-right: 1px solid rgba(15, 23, 42, 0.14) !important;
         }
         .block-container {
             padding-top: 2rem;
@@ -573,35 +575,69 @@ st.markdown(
             max-width: 1180px;
         }
 
-        /* Solid white cards with no outline */
+        /* Frosted pond-tinted cards */
         [class*="st-key-card_"] {
-            background-color: #ffffff !important;
-            border: none !important;
+            background-color: rgba(222, 240, 244, 0.84) !important;
+            backdrop-filter: blur(8px) !important;
+            -webkit-backdrop-filter: blur(8px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.55) !important;
             outline: none !important;
             border-radius: 16px !important;
             padding: 1.25rem 1.4rem !important;
-            box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06) !important;
+            box-shadow: 0 4px 16px rgba(15, 23, 42, 0.10) !important;
             margin-bottom: 1rem;
         }
+
+        /* Transparent inner wrappers inside cards so white strips don't appear */
         [class*="st-key-card_"] > div,
         [class*="st-key-card_"] [data-testid="stVerticalBlock"],
-        [class*="st-key-card_"] [data-testid="stVerticalBlockBorderWrapper"] {
-            background-color: #ffffff !important;
+        [class*="st-key-card_"] [data-testid="stVerticalBlockBorderWrapper"],
+        [class*="st-key-card_"] [data-testid="stHorizontalBlock"],
+        [class*="st-key-card_"] [data-testid="stColumn"],
+        [class*="st-key-card_"] [data-testid="stElementContainer"],
+        [class*="st-key-card_"] [data-testid="stMarkdownContainer"],
+        [class*="st-key-card_"] [data-testid="stRadio"] > div {
+            background-color: transparent !important;
+            background: transparent !important;
             border: none !important;
             outline: none !important;
             box-shadow: none !important;
         }
 
+        /* Primary button ("Analyze Email") in #115240 */
+        [data-testid="stBaseButton-primary"],
+        button[kind="primary"] {
+            background-color: #115240 !important;
+            border-color: #115240 !important;
+            color: #ffffff !important;
+        }
+        [data-testid="stBaseButton-primary"]:hover,
+        button[kind="primary"]:hover {
+            background-color: #0d3f31 !important;
+            border-color: #0d3f31 !important;
+            color: #ffffff !important;
+        }
+
+        /* Active radio button indicator in #115240 */
+        [data-testid="stRadio"] [role="radio"][aria-checked="true"] > div:first-child,
+        [data-testid="stRadio"] input:checked + div {
+            background-color: #115240 !important;
+            border-color: #115240 !important;
+        }
+        [data-testid="stRadio"] [role="radio"][aria-checked="true"] > div:first-child > div {
+            background-color: #ffffff !important;
+        }
+
         /* Inset inputs */
         [data-testid="stTextInput"] input,
         [data-testid="stTextArea"] textarea {
-            background-color: #f3f5f8 !important;
+            background-color: rgba(243, 245, 248, 0.95) !important;
             color: #1f2937 !important;
             border: 1px solid #dfe4ec !important;
             border-radius: 10px !important;
         }
         [data-testid="stSelectbox"] > div > div {
-            background-color: #f3f5f8 !important;
+            background-color: rgba(243, 245, 248, 0.95) !important;
             color: #1f2937 !important;
             border-radius: 10px !important;
         }
@@ -619,7 +655,7 @@ st.markdown(
             font-weight: 600;
         }
 
-        /* Empty results placeholder blends directly into the white card */
+        /* Empty results placeholder blends directly into the frosted card */
         .empty-results-box {
             background-color: transparent !important;
             border: none !important;
@@ -995,8 +1031,12 @@ def render_empty_results_placeholder(validation_msg: str = None):
 REVIEW_THRESHOLD = 0.35
 
 with st.container(border=True, key="card_results"):
-    st.subheader("Analysis Results")
-    analyze_clicked = st.button("Analyze Email", type="primary")
+    res_header_col, res_btn_col = st.columns([6, 1], vertical_alignment="center")
+    with res_header_col:
+        st.subheader("Analysis Results")
+    with res_btn_col:
+        analyze_clicked = st.button("Analyze Email", type="primary", use_container_width=True)
+
     progress_slot = st.empty()
 
     if not analyze_clicked:
