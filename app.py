@@ -546,6 +546,41 @@ def extract_features(subject, body, has_attachment, att_type, day, hr, device, c
     
     return sample
 
+import mimetypes
+
+BG_IMAGE_PATH = os.path.join(APP_DIR, "fish_background.jpg") 
+
+if os.path.exists(BG_IMAGE_PATH):
+    bg_b64 = get_base64_image(BG_IMAGE_PATH)
+    mime_type, _ = mimetypes.guess_type(BG_IMAGE_PATH)
+    if not mime_type:
+        mime_type = "image/png"
+
+    st.markdown(
+        f"""
+        <style>
+            [data-testid="stAppViewContainer"] {{
+                background-image: url("data:{mime_type};base64,{bg_b64}") !important;
+                background-size: cover !important;
+                background-position: center !important;
+                background-repeat: no-repeat !important;
+                background-attachment: fixed !important;
+            }}
+
+            /* Keep top header transparent/blended so there isn't a solid strip at the top */
+            [data-testid="stHeader"] {{
+                background: transparent !important;
+            }}
+
+            /* Ensure white card containers stay crisp over busy background images */
+            [data-testid="stVerticalBlockBorderWrapper"] {{
+                background-color: rgba(255, 255, 255, 0.96) !important;
+            }}
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
 LOGO_PATH = os.path.join(APP_DIR, "phishing_logo.jpg")
 st.set_page_config(
     page_title="Aruka: Phishing Email Detector",
