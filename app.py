@@ -667,34 +667,44 @@ if os.path.exists(FISH_BORDER_PATH):
     st.markdown(
         f"""
         <style>
+            /* 1. Compact dropzone container */
             [data-testid="stFileUploaderDropzone"] {{
                 position: relative !important;
                 display: flex !important;
                 flex-direction: column !important;
                 align-items: center !important;
                 justify-content: center !important;
-                min-height: 230px !important;
-                padding-top: 38px !important; /* Pushes the button & text down into the fish's belly */
+                min-height: 155px !important;
+                padding: 10px !important;
                 background-color: #f3f5f8 !important;
                 border: none !important;
                 border-radius: 12px !important;
             }}
 
+            /* 2. Shrink & nudge the Upload button down and right into the fish belly */
+            [data-testid="stFileUploaderDropzone"] button {{
+                transform: translate(32px, 16px) scale(0.85) !important;
+                margin: 0 !important;
+                z-index: 2 !important;
+            }}
+
+            /* 3. Shrink & tuck the '200MB per file • EML' text right beneath the button inside the belly */
             [data-testid="stFileUploaderDropzoneInstructions"] {{
                 display: flex !important;
                 flex-direction: column !important;
                 align-items: center !important;
                 text-align: center !important;
-                margin-bottom: 4px !important;
-                padding-left: 55px !important; /* Centers text inside the wide part of the body */
+                transform: translate(32px, 12px) scale(0.82) !important;
+                margin: 0 !important;
                 z-index: 2 !important;
             }}
 
-            [data-testid="stFileUploaderDropzone"] button {{
-                margin-left: 55px !important; /* Centers the Upload button inside the wide part of the body */
-                z-index: 2 !important;
+            /* Hide extra icon inside instructions if Streamlit renders one */
+            [data-testid="stFileUploaderDropzoneInstructions"] svg {{
+                display: none !important;
             }}
 
+            /* 4. Smaller, crisp fish border centered behind them */
             [data-testid="stFileUploaderDropzone"]::after {{
                 content: "";
                 position: absolute;
@@ -702,7 +712,7 @@ if os.path.exists(FISH_BORDER_PATH):
                 pointer-events: none;
                 z-index: 1;
                 background-image: url("data:image/png;base64,{fish_b64}");
-                background-size: 380px auto; /* Slightly wider fish so button + text both fit inside */
+                background-size: 275px auto;
                 background-position: center;
                 background-repeat: no-repeat;
                 mix-blend-mode: multiply;
